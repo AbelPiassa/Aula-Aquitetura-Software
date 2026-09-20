@@ -1,0 +1,15 @@
+flowchart TB
+ U["Navegador"]
+ subgraph APP["Aplicação web MVC"]
+  C["VendasController — recebe ações e prepara telas"]
+  T["Templates Thymeleaf — apresenta formulários e listas"]
+  S["VendasService — valida pedidos e movimenta estoque"]
+  R["Repositórios JPA — acesso aos dados"]
+ end
+ D[("H2")]
+ U -->|Requisição HTTP| C
+ C -->|Consulta e executa operações| S
+ C -->|Fornece modelo| T
+ T -->|Resposta HTML| U
+ S -->|Persiste e consulta| R
+ R -->|JDBC| D

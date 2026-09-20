@@ -1,0 +1,36 @@
+classDiagram
+ class Produto {
+  Long id
+  String nome
+  BigDecimal preco
+  int estoque
+  boolean ativo
+ }
+ class Pedido {
+  Long id
+  String cliente
+  int quantidade
+  BigDecimal total
+ }
+ class Movimento {
+  Long id
+  String tipo
+  int quantidade
+ }
+ class VendasService {
+  +cadastrar(nome, preco)
+  +remover(id)
+  +movimentar(id, tipo, quantidade)
+  +vender(id, cliente, quantidade)
+ }
+ class ProdutoRepository
+ class PedidoRepository
+ class MovimentoRepository
+ Pedido "*" --> "1" Produto : produto
+ Movimento "*" --> "1" Produto : produto
+ VendasService --> ProdutoRepository : usa
+ VendasService --> PedidoRepository : usa
+ VendasService --> MovimentoRepository : usa
+ ProdutoRepository --> Produto : persiste
+ PedidoRepository --> Pedido : persiste
+ MovimentoRepository --> Movimento : persiste

@@ -1,0 +1,8 @@
+flowchart TB
+ U["Vendedor, administrador e estoquista"]
+ subgraph S["Sistema de vendas e estoque"]
+  WEB["Aplicação web MVC — Java, Spring MVC e Thymeleaf; telas e regras"]
+  DB[("Banco de dados H2 — produtos, pedidos e movimentos")]
+ end
+ U -->|Usa navegador; HTTP no ambiente local| WEB
+ WEB -->|Lê e grava via JPA e JDBC| DB
