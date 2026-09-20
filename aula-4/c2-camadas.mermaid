@@ -1,0 +1,12 @@
+flowchart TB
+ U["Vendedor, administrador e estoquista"]
+ subgraph SYS["Sistema de vendas e estoque"]
+  APP["Aplicação web MVC — Java, Spring MVC e Thymeleaf; contêiner"]
+  DB[("H2 — contêiner de dados")]
+ end
+ U -->|HTTP no ambiente local| APP
+ APP -->|JPA e JDBC| DB
+ N["Apresentação: controllers e templates dentro da aplicação"] -.-> APP
+ D["Domínio: regras de vendas e estoque dentro da aplicação"] -.-> APP
+ R["Dados: repositórios dentro da aplicação e persistência no H2"] -.-> APP
+ R -.-> DB
