@@ -1,0 +1,9 @@
+**/target/
+**/data/
+**/db/
+*.mv.db
+*.trace.db
+*.lock.db
+.idea/
+.vscode/
+*.iml

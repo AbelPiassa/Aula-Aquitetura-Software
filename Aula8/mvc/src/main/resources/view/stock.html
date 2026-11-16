@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{index :: topo('Estoque')}"></head>
+<body>
+<header th:replace="~{index :: cabecalho('Estoque')}"></header>
+<main>
+<div th:replace="~{index :: mensagens}"></div>
+<section>
+<small>ESTOQUISTA</small>
+<h2>Movimentar estoque</h2>
+<form action="/estoque" method="post">
+<label>Produto<select name="produtoId" required>
+<option value="">Selecione</option>
+<option th:each="p : ${produtos}" th:value="${p.id}" th:text="${p.nome}">
+</option>
+</select>
+</label>
+<label>Tipo<select name="tipo">
+<option value="ENTRADA">Entrada</option>
+<option value="SAIDA">Saída manual</option>
+</select>
+</label>
+<label>Quantidade<input name="quantidade" type="number" min="1" max="1000000" required>
+</label>
+<button>Registrar movimento</button>
+</form>
+</section>
+<section>
+<h2>Histórico de estoque</h2>
+<div class="scroll">
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Produto</th>
+<th>Tipo</th>
+<th>Quantidade</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="m : ${movimentos}">
+<td th:text="${#temporals.format(m.data,'dd/MM/yyyy HH:mm')}">
+</td>
+<td th:text="${m.produto.nome}">
+</td>
+<td th:text="${m.tipo}">
+</td>
+<td th:text="${m.quantidade}">
+</td>
+</tr>
+<tr th:if="${#lists.isEmpty(movimentos)}">
+<td colspan="4">Nenhuma movimentação registrada.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<footer>Vendas e estoque</footer>
+</body>
+</html>

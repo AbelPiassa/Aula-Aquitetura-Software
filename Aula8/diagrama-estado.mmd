@@ -1,0 +1,16 @@
+stateDiagram-v2
+    direction TB
+    state "Confirmado, aguardando faturamento" as Confirmado
+    state "Faturado" as Faturado
+    [*] --> Confirmado: vender registra pedido e baixa estoque
+    Confirmado --> Faturado: faturar recebe resposta válida e salva faturaId
+    Confirmado --> Confirmado: tentativa de faturamento falha
+    Faturado --> Faturado: repetir faturar não chama o hub
+    note right of Confirmado
+        faturaId é nulo
+        A baixa do estoque já aconteceu
+    end note
+    note right of Faturado
+        faturaId está preenchido
+        Não há nova baixa de estoque
+    end note

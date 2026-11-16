@@ -1,0 +1,44 @@
+classDiagram
+ direction TB
+ class Produto {
+  Long id
+  String nome
+  BigDecimal preco
+  int estoque
+  boolean ativo
+ }
+ class Pedido {
+  Long id
+  String cliente
+  int quantidade
+  BigDecimal total
+ }
+ class Movimento {
+  Long id
+  String tipo
+  int quantidade
+ }
+ class ProdutoService {
+  +cadastrar(nome, preco)
+  +remover(id)
+ }
+ class EstoqueService {
+  +movimentar(id, tipo, quantidade)
+ }
+ class PedidoService {
+  +vender(id, cliente, quantidade)
+ }
+ class ProdutoRepository
+ class PedidoRepository
+ class MovimentoRepository
+ Pedido "*" --> "1" Produto : produto
+ Movimento "*" --> "1" Produto : produto
+ ProdutoService --> ProdutoRepository : usa
+ EstoqueService --> ProdutoService : consulta produto
+ EstoqueService --> MovimentoRepository : registra
+ PedidoService --> ProdutoService : consulta produto
+ PedidoService --> EstoqueService : registra venda
+ PedidoService --> PedidoRepository : salva
+ ProdutoRepository --> Produto : persiste
+ PedidoRepository --> Pedido : persiste
+ MovimentoRepository --> Movimento : persiste

@@ -1,0 +1,29 @@
+stateDiagram-v2
+    direction TB
+    state "Ativo sem saldo" as SemSaldo
+    state "Ativo com saldo" as ComSaldo
+    state "Inativo" as Inativo
+
+    [*] --> SemSaldo: cadastrar(nome, preco)
+    SemSaldo --> ComSaldo: movimentar com ENTRADA válida
+    ComSaldo --> ComSaldo: entrada válida, venda parcial ou saída manual parcial
+    ComSaldo --> SemSaldo: vender ou movimentar com SAIDA zerando saldo
+    SemSaldo --> Inativo: remover(id)
+
+    note right of SemSaldo
+        ativo = true
+        estoque = 0
+        Venda e saída são recusadas
+    end note
+
+    note right of ComSaldo
+        ativo = true
+        estoque maior que zero
+        Remoção é recusada
+    end note
+
+    note right of Inativo
+        ativo = false
+        Histórico permanece no banco
+        Não há reativação nesta versão
+    end note

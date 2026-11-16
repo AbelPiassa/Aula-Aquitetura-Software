@@ -1,0 +1,32 @@
+sequenceDiagram
+    actor Vendedor
+    participant Controller as PedidoController
+    participant Service as PedidoService
+    participant Produtos as ProdutoService e ProdutoRepository
+    participant Registros as Repositórios de pedidos e movimentos
+
+    Note over Vendedor,Service: Cenário: campos válidos e produto encontrado e ativo
+    Vendedor->>Controller: POST /pedidos
+    Controller->>Service: vender(produtoId, cliente, quantidade)
+    Service->>Produtos: buscarAtivoBloqueado(produtoId)
+    Produtos-->>Service: Produto gerenciado pelo JPA
+    alt Estoque suficiente
+        Note over Service: Reduz saldo e calcula total com o preço cadastrado
+        Service->>Registros: pedidos.save(pedido)
+        Service->>Registros: estoque.registrar(produto, VENDA, quantidade)
+        Note over Service,Registros: Confirma pedido, movimento e saldo na mesma transação
+        Service-->>Controller: Conclui
+        Note over Controller: Prepara mensagem de sucesso
+    else Estoque insuficiente
+        Service-->>Controller: IllegalArgumentException após rollback
+        Note over Controller: ErrorController prepara a mensagem de erro
+    end
+    Controller-->>Vendedor: Redireciona para /pedidos
+    Vendedor->>Controller: GET /pedidos
+    Controller->>Service: listar()
+    Service->>Registros: Consulta pedidos por ID decrescente
+    Registros-->>Service: Lista de pedidos
+    Service-->>Controller: Lista de pedidos
+    Controller->>Produtos: listarAtivos()
+    Produtos-->>Controller: Produtos ativos
+    Controller-->>Vendedor: View sales renderizada pelo Thymeleaf
