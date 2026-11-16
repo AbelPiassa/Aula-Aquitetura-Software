@@ -2,7 +2,7 @@
 
 Trabalho aplicado a um sistema de vendas e estoque. O vendedor registra pedidos recebidos por telefone ou presencialmente. O administrador cuida dos produtos e o estoquista registra as movimentações.
 
-A organização segue a referência [Gapaivams/Arq.-Software](https://github.com/Gapaivams/Arq.-Software). As classes e regras do projeto anterior foram distribuídas nas pastas e responsabilidades correspondentes.
+
 
 ## Aulas
 
