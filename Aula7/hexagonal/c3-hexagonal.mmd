@@ -1,0 +1,14 @@
+flowchart TD
+    Requisicao["Requisição HTTP"] --> Rest["Adaptador REST: FaturaController"]
+    Rest --> Entrada["Porta de entrada: FaturarPedido"]
+    Aplicacao["Aplicação: FaturamentoService"] -. implementa .-> Entrada
+    Aplicacao --> Dominio["Domínio: Fatura e regras de transição"]
+    Aplicacao --> Persistencia["Porta: RepositorioFatura"]
+    Aplicacao --> Boleto["Porta: EmitirBoleto"]
+    Aplicacao --> Nota["Porta: EmitirNota"]
+    Aplicacao --> Aviso["Porta: NotificarCliente"]
+    Jpa["Adaptador: PersistenciaFatura e Spring Data JPA"] -->|Implementa| Persistencia
+    Jpa --> Banco[("H2 do faturamento")]
+    BoletoSim["BoletoSimulado"] -->|Implementa| Boleto
+    NotaSim["NotaSimulada"] -->|Implementa| Nota
+    AvisoSim["NotificacaoSimulada"] -->|Implementa| Aviso

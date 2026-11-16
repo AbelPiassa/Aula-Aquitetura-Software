@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{index :: topo('Não foi possível abrir a página')}"></head>
+<body>
+<header th:replace="~{index :: cabecalho('Não foi possível abrir a página')}"></header>
+<main>
+<div th:replace="~{index :: mensagens}"></div>
+<section><p>Confira o endereço e tente novamente.</p><a href="/">Voltar ao início</a></section>
+</main>
+<footer>Vendas e estoque</footer>
+</body>
+</html>

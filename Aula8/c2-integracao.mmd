@@ -1,0 +1,6 @@
+flowchart TD
+    Vendedor["Vendedor no navegador"] -->|HTTP e HTML| MVC["Vendas: Spring MVC e Thymeleaf, porta 8080"]
+    MVC -->|JPA| VendasDB[("H2 de vendas: produtos, pedidos e movimentos")]
+    MVC -->|"POST /faturas, JSON, com timeout"| Hub["Faturamento: arquitetura hexagonal, porta 8081"]
+    Hub -->|JPA| FaturasDB[("H2 de faturamento: faturas")]
+    Hub --> Simulacoes["Adaptadores locais de boleto, nota e notificação"]
