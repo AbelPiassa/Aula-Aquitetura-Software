@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="topo(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo}">Vendas e estoque</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="cabecalho(titulo)">
+    <small>ARQUITETURA DE SOFTWARE · AULA 6</small>
+    <h1 th:text="${titulo}">Vendas e estoque</h1>
+    <nav><a href="/">Início</a><a href="/produtos">Produtos</a><a href="/estoque">Estoque</a><a href="/pedidos">Pedidos</a><form th:action="@{/logout}" method="post"><button class="secondary">Sair</button></form></nav>
+</header>
+<div th:fragment="mensagens">
+    <p class="sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></p>
+    <p class="erro" role="alert" th:if="${erro}" th:text="${erro}"></p>
+</div>
+</body>
+</html>

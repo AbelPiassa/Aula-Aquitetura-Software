@@ -9,22 +9,25 @@
 
 ## Organização aplicada
 
-| Referência | Neste projeto |
+| Material de referência | Entrega atual |
 |---|---|
-| Pastas `Aula2` a `Aula8` | Mesma organização por aula |
-| Diagramas da aula 2 em `Exemplo` | Diagramas próprios do sistema de vendas nessa pasta |
-| MVC em `Aula5/mvc`, `Aula6/mvc` e `Aula8/mvc` | Mesmos locais para os projetos |
-| Entidades, repositórios e serviços em `model` | Pacotes `model/entity`, `model/repository` e `model/service` |
-| Controllers e telas separados | Produtos, estoque e pedidos com suas próprias classes e views |
+| Pastas por aula | Aulas anteriores preservadas e entregas em `aula-6`, `aula-7` e `aula-8`, conforme os enunciados |
+| MVC com controllers, entidades, repositórios e serviços | Mesma separação de responsabilidades dentro de `mvc` |
 | HTML em `resources/view` | Mesma pasta, com prefixo Thymeleaf configurado |
-| Portas e adaptadores do faturamento | `domain/entities`, `domain/exceptions`, `domain/ports/in`, `domain/ports/out` e `infra/adapters` |
+| Hub com portas e adaptadores | Domínio, aplicação, REST, persistência e protocolos simulados em `hexagonal` |
 
-## Regras preservadas
+## Adequação aos enunciados
 
-As entidades `Produto`, `Pedido` e `Movimento` mantêm o vocabulário da base do aluno. O saldo continua no produto e o histórico fica nos movimentos. A confirmação da venda calcula o total e reduz o estoque uma única vez. A remoção continua lógica e depende de saldo zero.
+Os enunciados enviados em imagem definem a entrega atual. As pastas das atividades são `aula-6`, `aula-7` e `aula-8`. Os arquivos das aulas anteriores permanecem em suas pastas históricas.
 
-A referência utiliza `Product`, `Stock` e `Sale`. Aqui, a organização foi aplicada às classes anteriores sem trocar o modelo de dados por essas entidades. Os serviços foram separados por responsabilidade e os testes foram adaptados às novas classes.
+A aula 6 acrescenta o enum persistido com os status disponível, indisponível e descontinuado. A permissão de descontinuar é verificada no servidor com Spring Security. Os diagramas `.mermaid` representam entrada/saída, saída sem saldo ou com produto descontinuado e as transições de status.
 
-Na integração, o endpoint `/faturas` é usado pelo hub e pelo cliente. O faturamento tem banco separado, reutiliza a fatura do mesmo pedido e retorna comprovantes simulados. O MVC continua responsável pela venda e pelo estoque.
+A aula 7 mantém portas e adaptadores e simula os três protocolos exigidos. A fatura guarda `codigoBarras`, `chaveAcesso` de 44 dígitos e `hashEmail` do conteúdo. Os scripts Maven Wrapper preservam os avisos de licença existentes.
 
-Os scripts Maven Wrapper preservam os avisos de licença existentes. A configuração do wrapper foi completada com o arquivo fornecido nos materiais.
+A aula 8 abre pedidos sem reservar saldo e conclui a venda no fechamento, após receber o ID da fatura pela REST. A análise em Markdown explica timeout e repetição de solicitação, com as soluções aplicadas em cada lado.
+
+## Documentação técnica consultada
+
+- [Spring Security: usuários em memória](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html).
+- [Spring Security: autorização em métodos](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html).
+- [Spring Security: CSRF e formulários](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html).

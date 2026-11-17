@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{index :: topo('Vendas e estoque')}"></head>
+<body>
+<header th:replace="~{index :: cabecalho('Vendas e estoque')}"></header>
+<main>
+<div th:replace="~{index :: mensagens}"></div>
+<p class="aviso">Demonstração acadêmica local. Os perfis indicam responsabilidades; o acesso usa perfis de demonstração.</p>
+<div class="grid">
+<section><small>ADMINISTRADOR</small><h2>Produtos</h2><p>Cadastre produtos e acompanhe o status. O ADM pode descontinuá-los.</p><a href="/produtos">Abrir produtos</a></section>
+<section><small>ESTOQUISTA</small><h2>Estoque</h2><p>Registre entradas e saídas e confira o histórico de movimentações.</p><a href="/estoque">Abrir estoque</a></section>
+<section><small>VENDEDOR</small><h2>Pedidos</h2><p>Abra pedidos e conclua a venda com faturamento e baixa de estoque no fechamento.</p><a href="/pedidos">Abrir pedidos</a></section>
+</div>
+</main>
+<footer>Vendas e estoque</footer>
+</body>
+</html>

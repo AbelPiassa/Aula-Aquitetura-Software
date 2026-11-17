@@ -1,0 +1,30 @@
+sequenceDiagram
+    actor Estoquista
+    participant Controller as EstoqueController
+    participant Service as EstoqueService
+    participant Produtos as ProdutoService e ProdutoRepository
+    participant Movimentos as MovimentoRepository
+
+    Note over Estoquista,Service: Produto existente e quantidade positiva
+    Estoquista->>Controller: POST /estoque (produtoId, tipo, quantidade)
+    Controller->>Service: movimentar(produtoId, tipo, quantidade)
+    Service->>Produtos: buscarAtivoBloqueado(produtoId)
+    alt Produto descontinuado
+        Produtos-->>Service: IllegalArgumentException
+        Service-->>Controller: Recusa a operação e reverte a transação
+    else Produto disponível ou indisponível
+        Produtos-->>Service: Produto com bloqueio de escrita
+        alt Entrada válida dentro do limite de saldo
+            Note over Service: Soma quantidade e altera status para DISPONIVEL
+            Service->>Movimentos: Registra movimento ENTRADA
+            Service-->>Controller: Conclui e confirma saldo, status e movimento
+        else Saída com saldo suficiente
+            Note over Service: Subtrai quantidade e muda para INDISPONIVEL se zerar
+            Service->>Movimentos: Registra movimento SAIDA
+            Service-->>Controller: Conclui e confirma saldo, status e movimento
+        else Saída sem saldo suficiente
+            Service-->>Controller: IllegalArgumentException e rollback
+        end
+    end
+    Note over Controller: Prepara sucesso ou ErrorController prepara mensagem de erro
+    Controller-->>Estoquista: Redireciona para GET /estoque
