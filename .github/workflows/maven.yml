@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        projeto: [Aula5/mvc, Aula6/mvc, Aula7/hexagonal, Aula8/mvc]
+        projeto: [Aula5/mvc, aula-6/mvc, aula-7/hexagonal, aula-8/mvc]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-java@v6.3.0
@@ -27,6 +27,6 @@ jobs:
         working-directory: ${{ matrix.projeto }}
         run: bash mvnw -B verify
       - name: Verificar regras do faturamento
-        if: matrix.projeto == 'Aula7/hexagonal'
-        working-directory: Aula7/hexagonal
+        if: matrix.projeto == 'aula-7/hexagonal'
+        working-directory: aula-7/hexagonal
         run: bash verificar.sh

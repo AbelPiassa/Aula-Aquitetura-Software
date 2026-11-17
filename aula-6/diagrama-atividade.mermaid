@@ -1,0 +1,21 @@
+flowchart TD
+    Inicio((Início)) --> Receber["Receber solicitação de saída"]
+    Receber --> Quantidade{"Quantidade positiva e dentro do limite?"}
+    Quantidade -->|Não| Recusar["Recusar sem alterar saldo nem histórico"]
+    Quantidade -->|Sim| Buscar["Buscar produto com bloqueio de escrita"]
+    Buscar --> Existe{"Produto encontrado?"}
+    Existe -->|Não| Recusar
+    Existe -->|Sim| Descontinuado{"Status é DESCONTINUADO?"}
+    Descontinuado -->|Sim| Recusar
+    Descontinuado -->|Não| Disponivel{"Há estoque disponível para a quantidade?"}
+    Disponivel -->|Não| Recusar
+    Disponivel -->|Sim| Saida["Subtrair a quantidade do saldo"]
+    Saida --> Zerou{"Saldo ficou zero?"}
+    Zerou -->|Sim| Indisponivel["Alterar status para INDISPONIVEL"]
+    Zerou -->|Não| Manter["Manter status DISPONIVEL"]
+    Indisponivel --> Registrar["Registrar movimento SAIDA"]
+    Manter --> Registrar
+    Registrar --> Confirmar["Confirmar a transação"]
+    Confirmar --> Exibir["Exibir resultado em GET /estoque"]
+    Recusar --> Exibir
+    Exibir --> Fim((Fim))

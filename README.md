@@ -12,9 +12,9 @@ Trabalho aplicado a um sistema de vendas e estoque. O vendedor registra pedidos 
 | [Aula3](Aula3/README.md) | Cliente-servidor e pipes e filtros em arquivos separados |
 | [Aula4](Aula4/README.md) | Organização da aplicação e das camadas |
 | [Aula5](Aula5/README.md) | Projeto MVC em `mvc` |
-| [Aula6](Aula6/README.md) | MVC e diagramas de comportamento |
-| [Aula7](Aula7/README.md) | Projeto hexagonal de faturamento |
-| [Aula8](Aula8/README.md) | MVC integrado ao faturamento por REST |
+| [aula-6](aula-6/README.md) | Estoque com status, permissão ADM e diagramas `.mermaid` |
+| [aula-7](aula-7/README.md) | Hub hexagonal com fila, SOAP e SMTP simulados |
+| [aula-8](aula-8/README.md) | Fechamento do pedido por REST e análise da integração |
 
 ## Organização do MVC
 
@@ -32,7 +32,7 @@ A configuração `spring.thymeleaf.prefix=classpath:/view/` faz o Thymeleaf loca
 
 ## Executar
 
-Use JDK 21. Para a versão integrada, abra um terminal em `Aula7/hexagonal` e outro em `Aula8/mvc`. Em cada um:
+Use JDK 21. Para a versão integrada, abra um terminal em `aula-7/hexagonal` e outro em `aula-8/mvc`. Em cada um:
 
 ```bash
 bash mvnw spring-boot:run
@@ -44,6 +44,12 @@ Abra http://127.0.0.1:8080. O faturamento atende na porta 8081. Execute somente 
 
 ## Verificar
 
-Em cada projeto MVC, execute `bash mvnw test`. Em `Aula7/hexagonal`, execute `bash verificar.sh` para verificar o núcleo sem baixar dependências. O pull request também executa os quatro projetos no GitHub Actions.
+Em cada projeto MVC, execute `bash mvnw test`. Em `aula-7/hexagonal`, execute `bash verificar.sh` para verificar o núcleo sem baixar dependências. O pull request também executa os quatro projetos no GitHub Actions.
 
 Os boletos, notas e notificações são simulados. Veja [REFERENCIAS.md](REFERENCIAS.md) e [VALIDACAO.md](VALIDACAO.md) para as decisões e os limites da verificação.
+
+## Acesso às entregas das aulas 6 e 8
+
+As aplicações dessas duas aulas usam contas locais em memória: `admin/admin123`, `estoquista/estoque123` e `vendedor/vendas123`. Somente o ADM pode descontinuar produtos. O cadastro começa como indisponível e o status acompanha o saldo.
+
+Na aula 8, criar um pedido não baixa o estoque. O botão **Fechar pedido** chama o hub, guarda o ID da fatura, registra a saída e muda o pedido para `FECHADO`. A análise dos dois problemas está em [aula-8/analise-integracao.md](aula-8/analise-integracao.md).

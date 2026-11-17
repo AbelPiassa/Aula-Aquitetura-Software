@@ -1,0 +1,33 @@
+sequenceDiagram
+    actor Vendedor
+    participant Controller as PedidoController
+    participant Service as PedidoService
+    participant Client as FaturamentoClient
+    participant Hub as Hub hexagonal
+
+    Vendedor->>Controller: POST /pedidos
+    Controller->>Service: criar(produtoId, cliente, quantidade)
+    Note over Service: Salva pedido ABERTO e total, sem baixar estoque
+    Service-->>Controller: Conclui abertura
+    Controller-->>Vendedor: Redireciona para /pedidos
+    Vendedor->>Controller: POST /pedidos/{id}/fechar
+    Controller->>Service: fechar(pedidoId)
+    Note over Service: Bloqueia pedido e produto e verifica saldo
+    alt Pedido já está FECHADO
+        Service-->>Controller: Retorna sem nova chamada ao hub
+    else Pedido ABERTO com produto e saldo válidos
+        Service->>Client: faturar(pedidoId, total)
+        Client->>Hub: POST /faturas com pedidoId e valor
+        Note over Hub: Reutiliza a fatura se pedido e valor forem repetidos
+        alt Resposta válida
+            Hub-->>Client: ID e dados da fatura persistida
+            Client-->>Service: FaturaResponse
+            Note over Service: Baixa estoque, registra VENDA e salva ID e status FECHADO
+            Service-->>Controller: Confirma a transação local
+        else Erro HTTP, timeout ou dados incompatíveis
+            Client-->>Service: FaturamentoException
+            Service-->>Controller: Exceção e rollback local
+            Note over Controller: Prepara mensagem e mantém pedido ABERTO
+        end
+    end
+    Controller-->>Vendedor: Redireciona para GET /pedidos

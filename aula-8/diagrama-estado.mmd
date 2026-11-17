@@ -1,0 +1,14 @@
+stateDiagram-v2
+    direction TB
+    [*] --> ABERTO: criar pedido e calcular total
+    ABERTO --> ABERTO: fechamento falha ou não há saldo
+    ABERTO --> FECHADO: fechar recebe ID válido e confirma a transação local
+    FECHADO --> FECHADO: repetir fechamento não chama o hub
+    note right of ABERTO
+        faturaId é nulo
+        O pedido não reserva o estoque
+    end note
+    note right of FECHADO
+        faturaId está guardado
+        A saída de estoque já foi registrada
+    end note

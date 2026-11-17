@@ -1,0 +1,13 @@
+stateDiagram-v2
+    direction TB
+    [*] --> INDISPONIVEL: cadastrar produto com saldo zero
+    INDISPONIVEL --> DISPONIVEL: entrada torna o saldo positivo
+    DISPONIVEL --> DISPONIVEL: entrada ou saída que mantém saldo positivo
+    DISPONIVEL --> INDISPONIVEL: saída zera o saldo
+    INDISPONIVEL --> DESCONTINUADO: descontinuar [usuário ADM]
+    DISPONIVEL --> DESCONTINUADO: descontinuar [usuário ADM]
+    note right of DESCONTINUADO
+        Só o ADM pode fazer essa transição
+        Entradas e saídas são bloqueadas
+        Saldo e histórico são preservados
+    end note
